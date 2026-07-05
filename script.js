@@ -126,25 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =====================================================
      DONNÉES — VOITURES
   ===================================================== */
+  const IMG = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=80`;
+
   const cars = [
-    { name:'Toyota Corolla', year:'2022', km:'32 000 km', trans:'Automatique', fuel:'Essence', price:'8 900 000', icon:carIcon, badge:'Berline' },
-    { name:'Toyota Hilux', year:'2023', km:'18 500 km', trans:'Manuelle', fuel:'Diesel', price:'19 500 000', icon:pickupIcon, badge:'Pick-up' },
-    { name:'Mercedes C300', year:'2021', km:'41 000 km', trans:'Automatique', fuel:'Essence', price:'17 200 000', icon:carIcon, badge:'Berline' },
-    { name:'BMW X5', year:'2022', km:'27 300 km', trans:'Automatique', fuel:'Essence', price:'24 800 000', icon:suvIcon, badge:'SUV' },
-    { name:'Hyundai Tucson', year:'2023', km:'12 000 km', trans:'Automatique', fuel:'Essence', price:'14 300 000', icon:suvIcon, badge:'SUV' },
-    { name:'Honda CR-V', year:'2021', km:'38 700 km', trans:'Automatique', fuel:'Essence', price:'13 700 000', icon:suvIcon, badge:'SUV' },
+    { name:'Toyota Corolla', year:'2022', km:'32 000 km', trans:'Automatique', fuel:'Essence', price:'8 900 000', icon:carIcon, badge:'Berline', img:IMG('photo-1559385988-439b04de16f8') },
+    { name:'Toyota Hilux', year:'2023', km:'18 500 km', trans:'Manuelle', fuel:'Diesel', price:'19 500 000', icon:pickupIcon, badge:'Pick-up', img:IMG('photo-1551171128-2618b95729db') },
+    { name:'Mercedes C300', year:'2021', km:'41 000 km', trans:'Automatique', fuel:'Essence', price:'17 200 000', icon:carIcon, badge:'Berline', img:IMG('photo-1544567430-6b7131655bb1') },
+    { name:'BMW X5', year:'2022', km:'27 300 km', trans:'Automatique', fuel:'Essence', price:'24 800 000', icon:suvIcon, badge:'SUV', img:IMG('photo-1698316731602-a321713789cd') },
+    { name:'Hyundai Tucson', year:'2023', km:'12 000 km', trans:'Automatique', fuel:'Essence', price:'14 300 000', icon:suvIcon, badge:'SUV', img:IMG('photo-1547559418-8d7437f53b5b') },
+    { name:'Honda CR-V', year:'2021', km:'38 700 km', trans:'Automatique', fuel:'Essence', price:'13 700 000', icon:suvIcon, badge:'SUV', img:IMG('photo-1684849311607-ad25cec710a7') },
   ];
 
   /* =====================================================
      DONNÉES — MOTOS
   ===================================================== */
   const motos = [
-    { name:'Boxer BM150', cc:'150 cc', conso:'2.1 L/100km', price:'950 000', icon:scooterIcon },
-    { name:'Haojue HJ125', cc:'125 cc', conso:'1.9 L/100km', price:'780 000', icon:scooterIcon },
-    { name:'TVS Apache', cc:'160 cc', conso:'2.3 L/100km', price:'1 250 000', icon:motoIcon },
-    { name:'Bajaj Pulsar', cc:'150 cc', conso:'2.2 L/100km', price:'1 100 000', icon:motoIcon },
-    { name:'Yamaha MT-15', cc:'155 cc', conso:'2.4 L/100km', price:'1 650 000', icon:motoIcon },
-    { name:'Honda CB125', cc:'125 cc', conso:'1.8 L/100km', price:'890 000', icon:scooterIcon },
+    { name:'Boxer BM150', cc:'150 cc', conso:'2.1 L/100km', price:'950 000', icon:scooterIcon, img:IMG('photo-1693826775276-53d4b1d758a3') },
+    { name:'Haojue HJ125', cc:'125 cc', conso:'1.9 L/100km', price:'780 000', icon:scooterIcon, img:IMG('photo-1747227231297-829a32781f65') },
+    { name:'TVS Apache', cc:'160 cc', conso:'2.3 L/100km', price:'1 250 000', icon:motoIcon, img:IMG('photo-1666929436278-bc660d25825d') },
+    { name:'Bajaj Pulsar', cc:'150 cc', conso:'2.2 L/100km', price:'1 100 000', icon:motoIcon, img:IMG('photo-1747227231297-829a32781f65') },
+    { name:'Yamaha MT-15', cc:'155 cc', conso:'2.4 L/100km', price:'1 650 000', icon:motoIcon, img:IMG('photo-1666929436278-bc660d25825d') },
+    { name:'Honda CB125', cc:'125 cc', conso:'1.8 L/100km', price:'890 000', icon:scooterIcon, img:IMG('photo-1693826775276-53d4b1d758a3') },
   ];
 
   const GOLD = '#C9A24B';
@@ -161,7 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <span class="vcard-corner tl"></span>
       <span class="vcard-corner br"></span>
       <span class="vcard-badge">${c.badge}</span>
-      <div class="vcard-icon">${c.icon(GOLD)}</div>
+      <div class="vcard-icon">
+        <img src="${c.img}" alt="${c.name}" loading="lazy" data-fallback-type="car" data-fallback-index="${i}">
+      </div>
       <h3>${c.name}</h3>
       <div class="vcard-year">Modèle ${c.year} — Certifié</div>
       <div class="spec-grid">
@@ -181,14 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Génération des cartes motos ---------- */
   const motoGrid = document.getElementById('motoGrid');
-  motos.forEach((m) => {
+  motos.forEach((m, i) => {
     const card = document.createElement('article');
     card.className = 'vcard reveal';
     card.innerHTML = `
       <span class="vcard-corner tl"></span>
       <span class="vcard-corner br"></span>
       <span class="vcard-badge">Moto</span>
-      <div class="vcard-icon">${m.icon(GOLD)}</div>
+      <div class="vcard-icon">
+        <img src="${m.img}" alt="${m.name}" loading="lazy" data-fallback-type="moto" data-fallback-index="${i}">
+      </div>
       <h3>${m.name}</h3>
       <div class="vcard-year">Neuve — Garantie incluse</div>
       <div class="spec-grid">
@@ -202,6 +208,18 @@ document.addEventListener('DOMContentLoaded', () => {
     motoGrid.appendChild(card);
     revealObserver.observe(card);
   });
+
+  /* ---------- Repli automatique sur le dessin SVG si la photo est manquante ---------- */
+  // 'error' ne remonte pas (bubble) sur les <img>, donc on écoute en phase de capture.
+  document.addEventListener('error', (e) => {
+    const img = e.target;
+    if (!(img.tagName === 'IMG' && img.dataset.fallbackType)) return;
+    const list = img.dataset.fallbackType === 'car' ? cars : motos;
+    const item = list[parseInt(img.dataset.fallbackIndex, 10)];
+    if (item && item.icon) {
+      img.closest('.vcard-icon').innerHTML = item.icon(GOLD);
+    }
+  }, true);
 
   /* =====================================================
      TÉMOIGNAGES — slider automatique
